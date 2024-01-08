@@ -7,7 +7,8 @@ import com.google.gson.JsonObject;
 
 public class Remove implements Command {
 
-    public String task(JsonElement index, JsonElement data, JsonObject map) {
+    public String task(final JsonElement index,
+                       final JsonElement data, final JsonObject map) {
         JsonArray indexes = index.getAsJsonArray();
         JsonElement currentElement = map;
         int lastPathIndex = indexes.size() - 1;
@@ -22,12 +23,13 @@ public class Remove implements Command {
                         String response = "OK";
                         String reason = null;
                         String value = null;
-                        Response responseIns = new Response(response, reason, value);
+                        Response responseIns =
+                                new Response(response, reason, value);
                         Gson gson = new Gson();
                         return gson.toJson(responseIns);
                     }
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 String response = "ERROR";
                 String reason = "No such key";
                 String value = null;

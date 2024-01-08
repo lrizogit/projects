@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
-    public ClientHandler(Socket socket) {
+    public ClientHandler(final Socket socket) {
         this.clientSocket = socket;
     }
     JsonObject map = Main.map2;
@@ -17,8 +17,10 @@ public class ClientHandler implements Runnable {
     public void run() {
         Response.writeJsonObjectToFile(map);
         try (
-                DataInputStream input = new DataInputStream(clientSocket.getInputStream());
-                DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
+                DataInputStream input =
+                        new DataInputStream(clientSocket.getInputStream());
+                DataOutputStream output =
+                        new DataOutputStream(clientSocket.getOutputStream());
         ) {
             String json = input.readUTF();
             JsonObject request = JsonParser.parseString(json).getAsJsonObject();

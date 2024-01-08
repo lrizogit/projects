@@ -11,13 +11,13 @@ import com.google.gson.Gson;
 import com.beust.jcommander.Parameter;
 
 public class Main {
-    @Parameter(names= "-t")
+    @Parameter(names = "-t")
     static String type;
-    @Parameter(names= "-k")
+    @Parameter(names = "-k")
     static String key;
-    @Parameter(names= "-v")
+    @Parameter(names = "-v")
     static String value;
-    @Parameter(names= "-in")
+    @Parameter(names = "-in")
     static String fileName;
 
     private static final String SERVER_ADDRESS = "127.0.0.1";
@@ -35,7 +35,9 @@ public class Main {
                 .parse(args);
 
         if (fileName != null) {
-            String requestFilePath = System.getProperty("user.dir") + "/src/main/java/org/example/client/data/" + fileName;
+            String requestFilePath = System.getProperty("user.dir")
+                    + "/src/main/java/org/example/client/data/"
+                    + fileName;
 
             jsonString = readFileAsString(requestFilePath);
         } else {
@@ -44,8 +46,10 @@ public class Main {
         }
         try (
                 Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-                DataInputStream input = new DataInputStream(socket.getInputStream());
-                DataOutputStream output  = new DataOutputStream(socket.getOutputStream());
+                DataInputStream input =
+                        new DataInputStream(socket.getInputStream());
+                DataOutputStream output  =
+                        new DataOutputStream(socket.getOutputStream());
         ) {
             System.out.println("Client started!");
             output.writeUTF(jsonString);
@@ -57,8 +61,8 @@ public class Main {
             e.printStackTrace();
         }
     }
-    public static String readFileAsString(String requestFilePath )throws Exception
-    {
+    public static String readFileAsString(final String requestFilePath)
+            throws Exception {
         return new String(Files.readAllBytes(Paths.get(requestFilePath)));
     }
 }

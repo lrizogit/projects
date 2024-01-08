@@ -2,10 +2,11 @@ package org.example.client;
 
 public class Request {
 
-   String type;
-   String key;
-   String value;
-    public Request(String type, String key, String value) {
+   private String type;
+   private String key;
+   private String value;
+    public Request(final String type,
+                   final String key, final String value) {
         this.type = type;
         this.key = key;
         this.value = value;

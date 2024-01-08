@@ -7,7 +7,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class MenuC {
-    public static String menu (String com, JsonObject map, JsonObject request) {
+    public static String menu(final String com,
+                               final JsonObject map, final JsonObject request) {
         ReadWriteLock lock = new ReentrantReadWriteLock();
         Commands commando = new Commands();
         JsonElement index;
@@ -31,7 +32,7 @@ public class MenuC {
                     }
                     case "get" -> {
                         lock.writeLock().lock();
-                        index = (request.get("key"));
+                        index = request.get("key");
                         commando.setCommand(new Get());
                         taskRes = commando.task(index, data, map);
                         lock.writeLock().unlock();
@@ -39,7 +40,7 @@ public class MenuC {
                     }
                     case "delete" -> {
                         lock.readLock().lock();
-                        index = (request.get("key"));
+                        index = request.get("key");
                         commando.setCommand(new Remove());
                         taskRes = commando.task(index, data, map);
                         lock.readLock().unlock();

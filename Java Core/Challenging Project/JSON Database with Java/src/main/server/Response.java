@@ -10,7 +10,8 @@ public class Response {
     String response;
     String reason;
     String value;
-    public Response (String response, String reason, String value) {
+    public Response(final String response,
+                     final String reason, final String value) {
         this.response = response;
         this.reason = reason;
         this.value = value;
@@ -19,20 +20,20 @@ public class Response {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 
-    public static void writeJsonObjectToFile(JsonObject map) {
+    public static void writeJsonObjectToFile(final JsonObject map) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(map);
         try (FileWriter fileWriter = new
-                FileWriter("/Users/lrizo/Documents/MavenUdemy/JSON Database with Java" +
-                        "/src/main/java/org/example/server/data/db.json")) {
+                FileWriter("/Users/lrizo/Documents"
+                + "/MavenUdemy/JSON Database with Java"
+                + "/src/main/java/org/example/server/data/db.json")) {
             fileWriter.write(json);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
-

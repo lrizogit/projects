@@ -7,9 +7,10 @@ import com.google.gson.JsonObject;
 
 public class Get implements Command {
 
-    public String task(JsonElement index, JsonElement data, JsonObject map) {
+    public String task(final JsonElement index,
+                       final JsonElement data, final JsonObject map) {
         JsonElement jsonMapWrap = wrapGet(map, index);
-        if (jsonMapWrap == null ) {
+        if (jsonMapWrap == null) {
             String response = "ERROR";
             String reason = "No such key";
             String value = null;
@@ -26,28 +27,28 @@ public class Get implements Command {
             String ans = gson.toJson(responseJson);
             if (jsonMapWrap.isJsonPrimitive()) {
                 return gson.toJson(responseJson);
-            }else {
+            } else {
                 return ans;
             }
         }
     }
-    public JsonElement wrapGet (JsonObject map, JsonElement index){
-        if (index.isJsonPrimitive()){
+    public JsonElement wrapGet(final JsonObject map, final JsonElement index) {
+        if (index.isJsonPrimitive()) {
             return map.get(index.getAsString());
         }
         JsonArray indexes = index.getAsJsonArray();
         JsonObject wrapIndex = map;
         JsonElement wrapper = null;
-        if (index.isJsonArray() && indexes.size()== 1){
+        if (index.isJsonArray() && indexes.size() == 1) {
             wrapper = map.get(indexes.get(0).getAsString());
             return wrapper;
-        } else  {
-            for (int i = 0 ;i < indexes.size(); i++){
+        } else {
+            for (int i = 0; i < indexes.size(); i++) {
                 wrapper = wrapIndex.get(indexes.get(i).getAsString());
-                if (wrapper == null){
+                if (wrapper == null) {
                     return null;
                 }
-                if (i < indexes.size()-1) {
+                if (i < indexes.size() - 1) {
                     wrapIndex = (JsonObject) wrapper;
                 }
             }

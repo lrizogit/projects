@@ -20,7 +20,8 @@ public class Main {
 
         try (ServerSocket server = new ServerSocket(PORT)) {
             while (!Main.msg.equals("exit")) {
-                Future<?> future = executorService.submit(new ClientHandler(server.accept()));
+                Future<?> future = executorService
+                        .submit(new ClientHandler(server.accept()));
                 future.get();
             }
         } catch (IOException e) {
