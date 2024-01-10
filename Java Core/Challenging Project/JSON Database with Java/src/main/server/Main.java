@@ -1,7 +1,10 @@
 package org.example.server;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,7 +24,17 @@ public class Main {
         try (ServerSocket server = new ServerSocket(PORT)) {
             while (!Main.msg.equals("exit")) {
                 Future<?> future = executorService
-                        .submit(new ClientHandler(server.accept()));
+                        .submit(new ClientHandler(server.accept()) {
+                            @Override
+                            protected DataOutputStream getOutputStream(Socket socket) throws IOException {
+                                return null;
+                            }
+
+                            @Override
+                            protected DataInputStream getInputStream(Socket socket) throws IOException {
+                                return null;
+                            }
+                        });
                 future.get();
             }
         } catch (IOException e) {

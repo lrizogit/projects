@@ -38,11 +38,6 @@ public class Remove implements Command {
                 return gson.toJson(responseIns);
             }
         }
-        String response = "ERROR";
-        String reason = "No such key";
-        String value = null;
-        Response responseIns = new Response(response, reason, value);
-        Gson gson = new Gson();
-        return gson.toJson(responseIns);
+        return null;
     }
 }

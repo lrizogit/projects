@@ -7,7 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable {
+public abstract class ClientHandler implements Runnable {
     private final Socket clientSocket;
     public ClientHandler(final Socket socket) {
         this.clientSocket = socket;
@@ -34,4 +34,10 @@ public class ClientHandler implements Runnable {
         }
         Response.writeJsonObjectToFile(map);
     }
+
+    protected abstract DataOutputStream
+    getOutputStream(Socket socket) throws IOException;
+
+    protected abstract DataInputStream
+    getInputStream(Socket socket) throws IOException;
 }

@@ -18,7 +18,17 @@ class MenuCTest {
         com = "set";
         request = JsonParser.parseString(json).getAsJsonObject();
         MenuC.menu(com, map, request);
-        assertEquals(MenuC.menu(com, map, request), "{\"response\":\"OK\"}");
+        assertEquals(MenuC.menu(com, map, request),
+                "{\"response\":\"OK\"}");
+    }
+    @Test
+    void menuDefault() {
+        String json = "{\"type\":\"test\",\"key\":\"name\",\"value\":\"Kate\"}";
+        com = "test";
+        request = JsonParser.parseString(json).getAsJsonObject();
+        MenuC.menu(com, map, request);
+        assertEquals(MenuC.menu(com, map, request),
+                "{\"response\":\"ERROR\",\"reason\":\"Invalid type\"}");
     }
     @Test
     void menuGetFail() {
@@ -26,7 +36,8 @@ class MenuCTest {
         com = "get";
         request = JsonParser.parseString(json).getAsJsonObject();
         MenuC.menu(com, map, request);
-        assertEquals(MenuC.menu(com, map, request), "{\"response\":\"ERROR\",\"reason\":\"No such key\"}");
+        assertEquals(MenuC.menu(com, map, request),
+                "{\"response\":\"ERROR\",\"reason\":\"No such key\"}");
     }
     @Test
     void menuGet() {
@@ -40,9 +51,10 @@ class MenuCTest {
         com = "get";
         JsonObject request1 = JsonParser.parseString(json1).getAsJsonObject();
         MenuC.menu(com, map, request1);
-        assertEquals(MenuC.menu(com, map, request), "{\"response\":\"OK\",\"value\":\"Kate\"}");
+        assertEquals(MenuC.menu(com, map, request),
+                "{\"response\":\"OK\",\"value\":\"Kate\"}");
     }
-    @Test
+   @Test
     void menuDelete() {
         String json = "{\"type\":\"set\",\"key\":\"name\",\"value\":\"Kate\"}";
         request = JsonParser.parseString(json).getAsJsonObject();
@@ -50,11 +62,11 @@ class MenuCTest {
         JsonElement index = request.get("key");
         data = request.get("value");
         commando.task(index, data, map);
-        String json1 = "{\"type\":\"delete\",\"key\":[\"name\", \"Kate\"]}";
+        String json1 = "{\"type\":\"delete\",\"key\":[\"name\"]}";
         com = "delete";
         JsonObject request1 = JsonParser.parseString(json1).getAsJsonObject();
-        MenuC.menu(com, map, request1);
-        assertEquals(MenuC.menu(com, map, request), "{\"response\":\"OK\",\"value\":\"Kate\"}");
+        assertEquals(MenuC.menu(com, map, request1),
+                "{\"response\":\"OK\"}");
     }
     @Test
     void menuExit() {
@@ -62,6 +74,8 @@ class MenuCTest {
         com = "exit";
         request = JsonParser.parseString(json).getAsJsonObject();
         MenuC.menu(com, map, request);
-        assertEquals(MenuC.menu(com, map, request), "{\"response\":\"OK\"}");
+        assertEquals(MenuC.menu(com, map, request),
+                "{\"response\":\"OK\"}");
     }
+
 }
