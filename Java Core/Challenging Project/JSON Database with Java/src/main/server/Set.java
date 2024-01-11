@@ -24,12 +24,14 @@ public class Set implements Command {
     private static void modifyJsonValue(final JsonObject map,
                                         final JsonArray indexes,
                                         final JsonElement data) {
+
         JsonElement currentElement = map;
         int lastPathIndex = indexes.size() - 1;
 
         for (int i = 0; i < indexes.size() - 1; i++) {
             String currentKey = indexes.get(i).getAsString();
             String currentKeyPlus = indexes.get(i + 1).getAsString();
+            currentElement.getAsJsonObject().addProperty(currentKey,currentKeyPlus);
             currentElement = currentElement.getAsJsonObject().get(currentKey);
             if (i == lastPathIndex - 1) {
                 currentElement.getAsJsonObject().add(currentKeyPlus, data);

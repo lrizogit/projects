@@ -1,7 +1,5 @@
 package org.example.server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,6 +15,7 @@ public class Main {
     private static final int PORT = 2010;
      static JsonObject map2 = new JsonObject();
 
+
     public static void main(String[] args) {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -25,15 +24,7 @@ public class Main {
             while (!Main.msg.equals("exit")) {
                 Future<?> future = executorService
                         .submit(new ClientHandler(server.accept()) {
-                            @Override
-                            protected DataOutputStream getOutputStream(Socket socket) throws IOException {
-                                return null;
-                            }
 
-                            @Override
-                            protected DataInputStream getInputStream(Socket socket) throws IOException {
-                                return null;
-                            }
                         });
                 future.get();
             }

@@ -14,13 +14,14 @@ class MenuCTest {
     Commands commando = new Commands();
     @Test
     void menuSet() {
-        String json = "{\"type\":\"set\",\"key\":\"name\",\"value\":\"Kate\"}";
+        String json = "{\"type\":\"set\",\"key\":[\"name\"],\"value\":\"Kate\"}";
         com = "set";
         request = JsonParser.parseString(json).getAsJsonObject();
         MenuC.menu(com, map, request);
         assertEquals(MenuC.menu(com, map, request),
                 "{\"response\":\"OK\"}");
     }
+
     @Test
     void menuDefault() {
         String json = "{\"type\":\"test\",\"key\":\"name\",\"value\":\"Kate\"}";
@@ -54,6 +55,19 @@ class MenuCTest {
         assertEquals(MenuC.menu(com, map, request),
                 "{\"response\":\"OK\",\"value\":\"Kate\"}");
     }
+    @Test
+    void menuGetJson() {
+        JsonObject mapMock = new JsonObject();
+        JsonElement valueMock = new JsonObject();
+        valueMock.getAsJsonObject().addProperty("Rocket",88);
+        mapMock.add("Person",valueMock);
+        String json1 = "{\"type\":\"get\",\"key\":[\"Person\",\"Rocket\"]}";
+        com = "get";
+        JsonObject request1 = JsonParser.parseString(json1).getAsJsonObject();
+        MenuC.menu(com, mapMock, request1);
+        assertEquals(MenuC.menu(com, map, request1),
+                "{\"response\":\"ERROR\",\"reason\":\"No such key\"}");
+    }
    @Test
     void menuDelete() {
         String json = "{\"type\":\"set\",\"key\":\"name\",\"value\":\"Kate\"}";
@@ -67,6 +81,20 @@ class MenuCTest {
         JsonObject request1 = JsonParser.parseString(json1).getAsJsonObject();
         assertEquals(MenuC.menu(com, map, request1),
                 "{\"response\":\"OK\"}");
+    }
+    @Test
+    void menuDeleteFail() {
+        String json = "{\"type\":\"set\",\"key\":\"name\",\"value\":\"Kate\"}";
+        request = JsonParser.parseString(json).getAsJsonObject();
+        commando.setCommand(new Set());
+        JsonElement index = request.get("key");
+        data = request.get("value");
+        commando.task(index, data, map);
+        String json1 = "{\"type\":\"delete\",\"key\":[\"noKey\",\"noKey\"]}";
+        com = "delete";
+        JsonObject request1 = JsonParser.parseString(json1).getAsJsonObject();
+        assertEquals(MenuC.menu(com, map, request1),
+                "{\"response\":\"ERROR\",\"reason\":\"No such key\"}");
     }
     @Test
     void menuExit() {
